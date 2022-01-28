@@ -5,23 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <script src="js/fetch.js" defer></script>
     <script src="js/main.js" defer></script>
+    <script src="js/time.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/967a7a6fd6.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Movie List</title>
   </head>
   <body>
     <section class="movie">
       <header class="movie__header">
-        <span class="moive__current-time">00:00</span>
-        <span class="title">movie search</span>
-        <button class="list-delete-all">delete button</button>
+        <div class="title">🎬movie list</div>
+        <div class="movie__current-time"></div>
+        <button class="movie__delete-all">delete all</button>
       </header>
       <section class="movie__insert">
-        <form action="" class="movie__search-form"></form>
+        <input type="text" class="movie__search">
+          <button class="movie__insert__button">
+            <i class="fas fa-plus"></i>
+          </button>
+        </input>
       </section>
       <section class="movie-list">
-        <article class="movie__poster">image</article>
-        <span class="movie__info">movie_title</span>
-        button.delete
+        <ul class="movie__infos">
+        </ul>
       </section>
     </section>
   </body>
