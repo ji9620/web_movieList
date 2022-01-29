@@ -21,5 +21,7 @@
 
 2022.01.29 
 
-> 입력을 받을 때, 1회 이전의 내용이 출력되는 문제가 있습니다.<br>
-> sync 문제로 추측하여 수정을 시도 중입니다. 
+> ~입력을 받을 때, 1회 이전의 내용이 출력되는 문제가 있습니다.~<br>
+> ~sync 문제로 추측하여 수정을 시도 중입니다.~ <br>
+> 
+> https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Async_await
