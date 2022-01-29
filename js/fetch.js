@@ -7,8 +7,8 @@ let url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchD
 const day = new Date;
 let year = day.getFullYear();
 let month = day.getMonth() + 1;
-let date = 1;   
-//새벽에는 당일의 영화 통계 없어 일단 1일로 설정
+let date = day.getDate() - 1;   
+//전날의 통계를 불러옴
 
 month = (month < 10) ? ("0" + month) : (month);
 date = (date < 10) ? ("0" + date) : (date);
@@ -17,21 +17,28 @@ let now = `${year}${month}${date}`;
 let restoredSession;
 let selectedUrl;
 
-function fetchUrl(){
+async function fetchUrl(){
   //console.log(now);
   selectedUrl = url + now;
   //console.log(selectedUrl);
 
-  fetch(selectedUrl)
-  .then(res => res.json())
-  .then(myJson => localStorage.setItem('session', JSON.stringify(myJson)));
+  const result = await fetch(selectedUrl)
+  .then(res => res.json());
+
+  return result;
+  //.then(myJson => localStorage.setItem('session', JSON.stringify(myJson)));
 
 //parse?
 //restoredSession = localStorage.getItem('session'); 
-  restoredSession = JSON.parse(localStorage.getItem('session'));
+  //restoredSession = JSON.parse(localStorage.getItem('session'));
   //console.log(restoredSession);
 }
 fetchUrl();
+
+async function getDataAppend(){
+  restoredSession = await fetchUrl();
+}
+getDataAppend();
 
 const items = document.querySelector(".movie__infos");
 const input = document.querySelector(".movie__search");
@@ -113,12 +120,14 @@ function update(){
   //restoredSession = null;
 
   fetchUrl();
+  getDataAppend();
   printRank();
 }
 
-function printRank(){
+async function printRank(){
+  await getDataAppend();
   for(let i = 0; i < 10; i++){
-    console.log(restoredSession.boxOfficeResult.dailyBoxOfficeList[i].movieNm);
+    //console.log(restoredSession.boxOfficeResult.dailyBoxOfficeList[i].movieNm);
     input.value = `${restoredSession.boxOfficeResult.dailyBoxOfficeList[i].movieNm}`;
     onAdd();
   }
