@@ -10,6 +10,7 @@ let month = day.getMonth() + 1;
 let date = day.getDate() - 1;   
 //전날의 통계를 불러옴
 
+//yyyymmdd 형식에 맞추기 위 한자릿수인 월과 일에 0을 추가
 month = (month < 10) ? ("0" + month) : (month);
 date = (date < 10) ? ("0" + date) : (date);
 
@@ -18,23 +19,24 @@ let restoredSession;
 let selectedUrl;
 
 async function fetchUrl(){
-  //console.log(now);
   selectedUrl = url + now;
-  //console.log(selectedUrl);
 
   const result = await fetch(selectedUrl)
   .then(res => res.json());
 
-  return result;
-  //.then(myJson => localStorage.setItem('session', JSON.stringify(myJson)));
+  /*
+  //parse는 string객체를 json객체로, stringify는 반대로 변환
+  let temp = JSON.stringify(result);
+  temp = JSON.parse(temp);
+  console.log(temp);
+*/
 
-//parse?
-//restoredSession = localStorage.getItem('session'); 
-  //restoredSession = JSON.parse(localStorage.getItem('session'));
-  //console.log(restoredSession);
+  return result;
 }
 fetchUrl();
 
+/*데이터를 읽어온 이후에 실행되어 이전의 문제였던
+입력받은 데이터가 한 주기씩 밀리던 현상 해결*/ 
 async function getDataAppend(){
   restoredSession = await fetchUrl();
 }
@@ -108,17 +110,8 @@ deleteAll.addEventListener("click", () => {
 printRank();
 
 function update(){
-/*
-  fetch(selectedUrl)
-  .then(res => res.json())
-  .then(myJson => localStorage.setItem('session', JSON.stringify(myJson)));
-*/
-  selectedUrl = null;
-  now = null;
   now = input.value + "";
-  //session = null;
-  //restoredSession = null;
-
+  
   fetchUrl();
   getDataAppend();
   printRank();
@@ -127,7 +120,6 @@ function update(){
 async function printRank(){
   await getDataAppend();
   for(let i = 0; i < 10; i++){
-    //console.log(restoredSession.boxOfficeResult.dailyBoxOfficeList[i].movieNm);
     input.value = `${restoredSession.boxOfficeResult.dailyBoxOfficeList[i].movieNm}`;
     onAdd();
   }
